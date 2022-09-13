@@ -1,14 +1,12 @@
 package com.lti.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+
 
 import com.lti.bean.Course;
 import com.lti.bean.Grade;
 import com.lti.bean.Payment;
-import com.lti.bean.Registration;
+
 import com.lti.dao.AdminDaoImplementation;
 import com.lti.dao.RegistrationDaoImplementation;
 import com.lti.dao.StudentDaoImplementation;

@@ -6,11 +6,9 @@ import java.util.Scanner;
 import com.lti.bean.Course;
 import com.lti.bean.Grade;
 import com.lti.bean.Payment;
-import com.lti.dao.AdminDaoImplementation;
+
 import com.lti.dao.RegistrationDaoImplementation;
-import com.lti.dao.StudentDaoImplementation;
-import com.lti.exception.CourseLimitExceedException;
-import com.lti.exception.CourseNotFoundException;
+
 import com.lti.exception.StudentNotFoundException;
 import com.lti.service.StudentInterfaceOperation;
 import com.lti.service.StudentService;
@@ -22,6 +20,10 @@ import com.lti.service.StudentService;
 
 public class CRSStudentMenu {
 
+	/**
+	 * Shows the student menu
+	 * @param studentId - id of currently logged in student
+	 */
 	public void show(int studentID) {
 
 		boolean quit = false;
@@ -45,10 +47,19 @@ public class CRSStudentMenu {
 			StudentInterfaceOperation service = new StudentService();
 
 			switch (option) {
-			case 1:
-				service.registerCourses(studentID);
-				break;
+			case 1: 
+			{
+				System.out.println("\n\tRegistration of course");
+			
+				RegistrationDaoImplementation regDao = new RegistrationDaoImplementation();
+				ArrayList<Course> courseList = regDao.getCourseList();
 
+				System.out.println("\n\tCourse list:\t");
+				for (Course course : courseList) {
+					System.out.println("\tid: " + course.getCourseID() + "\t" + "course: " + course.getCourseName());
+				}
+			}
+				
 			case 2: {
 				System.out.println("\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 				
@@ -57,7 +68,7 @@ public class CRSStudentMenu {
 
 				while (true) {
 					
-					System.out.print("\n\tCourse list:\t");
+					System.out.println("\n\tCourse list:\t");
 					for (Course course : courseList) {
 						System.out.println("\tid: " + course.getCourseID() + "\t" + "course: " + course.getCourseName());
 					}

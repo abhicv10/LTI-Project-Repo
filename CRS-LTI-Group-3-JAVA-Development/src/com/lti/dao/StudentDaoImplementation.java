@@ -1,14 +1,14 @@
 package com.lti.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.lti.bean.Login;
+
 import com.lti.bean.Payment;
 import com.lti.bean.Student;
 import com.lti.constant.SQLConstant;
@@ -19,11 +19,6 @@ public class StudentDaoImplementation {
 
 	Connection conn = null;
 
-	/**
-	 * 
-	 * @param student
-	 * @return
-	 */
 	public int addStudent(Student student) {
 
 		int insertedID = 0;
@@ -64,11 +59,6 @@ public class StudentDaoImplementation {
 		return insertedID;
 	}
 
-	/**
-	 * 
-	 * @param studentID
-	 * @throws StudentNotFoundException
-	 */
 	public void approveStudent(int studentID) throws StudentNotFoundException {
 
 		PreparedStatement stmt = null;
@@ -106,12 +96,6 @@ public class StudentDaoImplementation {
 		}
 	}
 
-	/**
-	 * 
-	 * @param studentID
-	 * @return
-	 * @throws StudentNotFoundException
-	 */
 	public boolean isStudentApproved(int studentID) throws StudentNotFoundException {
 
 		PreparedStatement stmt = null;
@@ -161,10 +145,6 @@ public class StudentDaoImplementation {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public ArrayList<Student> getStudentList() {
 		ArrayList<Student> students = new ArrayList<Student>();
 		PreparedStatement stmt = null;
@@ -213,10 +193,6 @@ public class StudentDaoImplementation {
 		return students;
 	}
 
-	/**
-	 * 
-	 * @param payment
-	 */
 	public void payFee(Payment payment) {
 
 		PreparedStatement stmt = null;

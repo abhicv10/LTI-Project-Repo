@@ -1,7 +1,7 @@
 package com.lti.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,10 +18,6 @@ public class RegistrationDaoImplementation {
 
 	Connection conn = null;
 
-	/**
-	 * 
-	 * @return list of all courses
-	 */
 	public ArrayList<Course> getCourseList() {
 
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -63,14 +59,6 @@ public class RegistrationDaoImplementation {
 		return courses;
 	}
 
-	/**
-	 * 
-	 * @param studentID
-	 * @param courseID
-	 * @throws StudentNotFoundException
-	 * @throws CourseNotFoundException
-	 * @throws CourseLimitExceedException
-	 */
 	public void registerCourse(int studentID, int courseID)
 			throws StudentNotFoundException, CourseNotFoundException, CourseLimitExceedException {
 
@@ -133,31 +121,16 @@ public class RegistrationDaoImplementation {
 			stmt.close();
 
 		} catch (SQLException se) {
-			// Handle errors for JDBC
 			se.printStackTrace();
 		} finally {
-			// finally block used to close resources
 			try {
 				if (stmt != null)
 					stmt.close();
 			} catch (SQLException se2) {
-			} // nothing we can do
-//			try {
-//				if (conn != null)
-//					conn.close();
-//			} catch (SQLException se) {
-//				se.printStackTrace();
-//			} // end finally try
-		} // end try
+			} 
+		}
 	}
 
-	/**
-	 * 
-	 * @param studentID
-	 * @param courseID
-	 * @throws StudentNotFoundException
-	 * @throws CourseNotFoundException
-	 */
 	public void deRegisterCourse(int studentID, int courseID) throws StudentNotFoundException, CourseNotFoundException {
 
 		PreparedStatement stmt = null;
@@ -203,30 +176,16 @@ public class RegistrationDaoImplementation {
 			stmt.close();
 
 		} catch (SQLException se) {
-			// Handle errors for JDBC
 			se.printStackTrace();
 		} finally {
-			// finally block used to close resources
 			try {
 				if (stmt != null)
 					stmt.close();
 			} catch (SQLException se2) {
-			} // nothing we can do
-//			try {
-//				if (conn != null)
-//					conn.close();
-//			} catch (SQLException se) {
-//				se.printStackTrace();
-//			} // end finally try
-		} // end try
+			} 
+		}
 	}
 
-	/**
-	 * 
-	 * @param studentID
-	 * @return
-	 * @throws StudentNotFoundException
-	 */
 	public ArrayList<Course> getStudentCourseList(int studentID) throws StudentNotFoundException {
 
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -281,26 +240,16 @@ public class RegistrationDaoImplementation {
 			return courses;
 
 		} catch (SQLException se) {
-			// Handle errors for JDBC
 			se.printStackTrace();
 		} catch (Exception e) {
-			// Handle errors for Class.forName
 			e.printStackTrace();
 		} finally {
-			// finally block used to close resources
 			try {
 				if (stmt != null)
 					stmt.close();
 			} catch (SQLException se2) {
-			} // nothing we can do
-//			try {
-//				if (conn != null)
-//					conn.close();
-//			} catch (SQLException se) {
-//				se.printStackTrace();
-//			} // end finally try
-		} // end try
-
+			} 
+		}
 		return courses;
 	}
 }

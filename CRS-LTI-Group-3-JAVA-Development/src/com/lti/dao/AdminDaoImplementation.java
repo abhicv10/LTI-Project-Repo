@@ -4,7 +4,7 @@
 package com.lti.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ import com.lti.bean.Course;
 import com.lti.bean.Grade;
 import com.lti.constant.SQLConstant;
 import com.lti.exception.CourseFoundException;
-import com.lti.exception.CourseNotFoundException;
+
 import com.lti.exception.ProfessorNotFoundException;
 import com.lti.utils.DbUtils;
 
@@ -27,9 +27,6 @@ public class AdminDaoImplementation {
 
 	Connection conn = null;
 	
-	/**
-	 * 
-	 */
 	public void addAdmin() {
 		PreparedStatement stmt = null;
 
@@ -52,12 +49,6 @@ public class AdminDaoImplementation {
 		}
 	}
 
-	/**
-	 * 
-	 * @param course
-	 * @throws CourseFoundException
-	 * @throws ProfessorNotFoundException
-	 */
 	public void addCourse(Course course) throws CourseFoundException, ProfessorNotFoundException {
 
 		PreparedStatement stmt = null;

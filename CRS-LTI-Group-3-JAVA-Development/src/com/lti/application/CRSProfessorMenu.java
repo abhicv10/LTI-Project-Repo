@@ -9,11 +9,16 @@ import com.lti.dao.ProfessorDaoImplementation;
 import com.lti.exception.CourseNotAssignedToProfessorException;
 import com.lti.exception.CourseNotFoundException;
 import com.lti.exception.ProfessorNotFoundException;
-import com.lti.exception.StudentNotFoundException;
+
 import com.lti.service.ProfessorInterfaceOperation;
 import com.lti.service.ProfessorService;
 
 public class CRSProfessorMenu {
+
+	/**
+	 * Shows the professor menu
+	 * @pararm profID - id of currently logged in professsor
+	 */
 	public void show(int profID) {
 
 		boolean quit = false;

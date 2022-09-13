@@ -1,14 +1,14 @@
 package com.lti.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.lti.bean.Login;
+
 import com.lti.bean.Professor;
 import com.lti.bean.Student;
 import com.lti.constant.SQLConstant;
@@ -23,11 +23,6 @@ public class ProfessorDaoImplementation {
 
 	Connection conn = null;
 
-	/**
-	 * 
-	 * @param professor
-	 * @return id in professsor table
-	 */
 	public int addProfessor(Professor professor) {
 		PreparedStatement stmt = null;
 
@@ -66,10 +61,6 @@ public class ProfessorDaoImplementation {
 		return insertedID;
 	}
 
-	/**
-	 * 
-	 * @return list of professors
-	 */
 	public ArrayList<Professor> getProfessorList() {
 
 		ArrayList<Professor> professsors = new ArrayList<Professor>();
@@ -119,12 +110,7 @@ public class ProfessorDaoImplementation {
 		return professsors;
 	}
 
-	/**
-	 * 
-	 * @param profID
-	 * @return list of course
-	 * @throws ProfessorNotFoundException
-	 */
+	
 	public ArrayList<Course> getCourseList(int profID) throws ProfessorNotFoundException {
 
 		ArrayList<Course> courses = new ArrayList<Course>();
@@ -176,14 +162,6 @@ public class ProfessorDaoImplementation {
 		return courses;
 	}
 
-	/**
-	 * 
-	 * @param courseID course id
-	 * @param profID   professor id
-	 * @return list of students
-	 * @throws CourseNotFoundException
-	 * @throws CourseNotAssignedToProfessorException
-	 */
 	public ArrayList<Student> getStudentList(int courseID, int profID)
 			throws CourseNotFoundException, CourseNotAssignedToProfessorException {
 
@@ -261,14 +239,7 @@ public class ProfessorDaoImplementation {
 		return students;
 	}
 
-	/**
-	 * 
-	 * @param studentID
-	 * @param courseID
-	 * @param grade
-	 * @throws StudentNotFoundException
-	 * @throws CourseNotFoundException
-	 */
+	
 	public void addGrade(int studentID, int courseID, String grade)
 			throws StudentNotFoundException, CourseNotFoundException {
 		PreparedStatement stmt = null;

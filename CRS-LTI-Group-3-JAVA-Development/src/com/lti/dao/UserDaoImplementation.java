@@ -1,11 +1,11 @@
 package com.lti.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
 
 import com.lti.bean.Login;
@@ -18,11 +18,6 @@ public class UserDaoImplementation {
 
 	Connection conn = null;
 
-	/**
-	 * 
-	 * @param username
-	 * @return
-	 */
 	public boolean isUsernameAlreadyTaken(String username) {
 		ArrayList<Login> logins = this.getAllUserLoginDetails();
 
@@ -37,11 +32,6 @@ public class UserDaoImplementation {
 		return usernameAlreadyTaken;
 	}
 
-	/**
-	 * 
-	 * @param login
-	 * @throws UserAlreadyExistException
-	 */
 	public void createNewUser(Login login) throws UserAlreadyExistException {
 		PreparedStatement stmt = null;
 
@@ -86,14 +76,6 @@ public class UserDaoImplementation {
 		}
 	}
 
-	/**
-	 * 
-	 * @param username
-	 * @param password
-	 * @param role
-	 * @return
-	 * @throws InvalidUserException
-	 */
 	public boolean validateUser(String username, String password, String role) throws InvalidUserException {
 		PreparedStatement stmt = null;
 		boolean result = false;
@@ -150,14 +132,6 @@ public class UserDaoImplementation {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param username
-	 * @param password
-	 * @param role
-	 * @return
-	 * @throws InvalidUserException
-	 */
 	public int getUserID(String username, String password, String role) throws InvalidUserException {
 
 		int roleID = 0;
@@ -204,10 +178,7 @@ public class UserDaoImplementation {
 		return 0;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
+
 	public ArrayList<Login> getAllUserLoginDetails() {
 		ArrayList<Login> logins = new ArrayList<Login>();
 

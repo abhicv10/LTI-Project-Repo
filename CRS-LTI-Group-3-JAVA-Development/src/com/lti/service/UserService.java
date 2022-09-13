@@ -1,6 +1,6 @@
 package com.lti.service;
 
-import java.util.Scanner;
+
 
 import com.lti.bean.Login;
 import com.lti.bean.Student;
@@ -15,7 +15,7 @@ import com.lti.exception.UserAlreadyExistException;
  */
 
 public class UserService implements UserInterfaceOperation {
-	
+
 	public boolean verifyCredential(Login login) {
 		
 		boolean result = false;
@@ -31,7 +31,7 @@ public class UserService implements UserInterfaceOperation {
 		
 		return result;
 	}
-	
+
 	public void registerStudent(Student student, Login login) {
 
 		StudentDaoImplementation studentDao = new StudentDaoImplementation();
@@ -48,10 +48,9 @@ public class UserService implements UserInterfaceOperation {
 		}
 	}
 	
+	
 	public void resetPassword(String username, String newPassword) {
 		UserDaoImplementation userDao = new UserDaoImplementation();
 		userDao.updatePassword(username, newPassword);
 	}
-	
-	
 }

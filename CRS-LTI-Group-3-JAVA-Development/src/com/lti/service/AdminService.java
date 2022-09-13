@@ -1,16 +1,16 @@
 package com.lti.service;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 import com.lti.bean.Course;
 import com.lti.bean.Grade;
 import com.lti.bean.Login;
 import com.lti.bean.Professor;
-import com.lti.bean.Student;
+
 import com.lti.dao.AdminDaoImplementation;
 import com.lti.dao.ProfessorDaoImplementation;
-import com.lti.dao.RegistrationDaoImplementation;
+
 import com.lti.dao.StudentDaoImplementation;
 import com.lti.dao.UserDaoImplementation;
 import com.lti.exception.CourseFoundException;

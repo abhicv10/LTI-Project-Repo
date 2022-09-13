@@ -7,44 +7,44 @@ import com.lti.bean.Grade;
 import com.lti.bean.Payment;
 
 public interface StudentInterfaceOperation {
-	
+
 	/**
-	 * 
-	 * @param studentID
+	 * Method to Register course for a student
+	 * @param studentID - Get id of student
 	 */
 	public void registerCourses(int studentID);
-	
+
 	/**
-	 * Adds a course to student course list
-	 * @param studentID
-	 * @param courseID
+	 * Method to Adds a course to student course list
+	 * @param studentID - Get id of student
+	 * @param courseID  - Get id of course
 	 */
 	public void addCourse(int studentID, int courseID);
-	
+
 	/**
-	 * Drops a course to student course list
-	 * @param studentID
-	 * @param courseID
+	 * Method to Drops a course to student course list
+	 * @param studentID - Get id of student
+	 * @param courseID  - Get id of course
 	 */
 	public void dropCourse(int studentID, int courseID);
-	
+
 	/**
-	 * Get list of courses enrolled by the student
-	 * @param studentID
-	 * @return
+	 * Method to Get list of courses enrolled by the student
+	 * @param studentID - Get id of student
+	 * @return list of enrolled courses
 	 */
 	public ArrayList<Course> viewEnrolledCourses(int studentID);
-	
+
 	/**
-	 * Get list of grades for a student
-	 * @param studentID
-	 * @return
+	 * Method to Get list of grades for a student
+	 * @param studentID - Get id of student
+	 * @return list of grades
 	 */
 	public ArrayList<Grade> viewGrades(int studentID);
-	
+
 	/**
-	 * Pays fee for a student
-	 * @param payment
+	 * Method to Pays fee for a student
+	 * @param payment - Get payment bean
 	 */
 	public void payFee(Payment payment);
 }

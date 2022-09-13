@@ -5,7 +5,7 @@ import java.util.Scanner;
 import com.lti.service.UserService;
 import com.lti.bean.Login;
 import com.lti.bean.Student;
-import com.lti.dao.AdminDaoImplementation;
+
 import com.lti.dao.StudentDaoImplementation;
 import com.lti.dao.UserDaoImplementation;
 import com.lti.exception.InvalidUserException;

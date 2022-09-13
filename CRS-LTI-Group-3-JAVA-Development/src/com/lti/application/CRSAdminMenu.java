@@ -8,17 +8,20 @@ import com.lti.bean.Grade;
 import com.lti.bean.Login;
 import com.lti.bean.Professor;
 import com.lti.bean.Student;
-import com.lti.dao.AdminDaoImplementation;
+
 import com.lti.dao.ProfessorDaoImplementation;
 import com.lti.dao.RegistrationDaoImplementation;
 import com.lti.dao.StudentDaoImplementation;
 import com.lti.dao.UserDaoImplementation;
-import com.lti.exception.StudentNotFoundException;
-import com.lti.exception.UserAlreadyExistException;
+
 import com.lti.service.AdminInterfaceOperation;
 import com.lti.service.AdminService;
 
 public class CRSAdminMenu {
+
+	/**
+	 * Shows the admin menu
+	 */
 	public void show() {
 
 		boolean quit = false;

@@ -20,6 +20,10 @@ public class DbUtils {
 
 	private static Connection connection = null;
 
+	/**
+	 * Creates and returns the connection object by reading from config file
+	 * @return connection object
+	 */
 	public static Connection getConnection() {
 
 		if (connection != null)
