@@ -39,6 +39,7 @@ public interface AdminDao {
      * Method to get grades of a particular student
      * @param studentID - id of student to get grade list for
      * @return list of grades
+     * @throws GradeNotAddedException
      */
-    public ArrayList<Grade> getGrades(int studentID);
+    public ArrayList<Grade> getGrades(int studentID) throws GradeNotAddedException;
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.lti.bean.Payment;
 import com.lti.bean.Student;
 import com.lti.constant.SQLConstant;
+import com.lti.exception.PaymentAlreadyDoneException;
 import com.lti.exception.StudentNotFoundException;
 import com.lti.utils.DbUtils;
 
@@ -193,12 +194,26 @@ public class StudentDaoImplementation {
 		return students;
 	}
 
-	public void payFee(Payment payment) {
+	public void payFee(Payment payment) throws PaymentAlreadyDoneException {
 
 		PreparedStatement stmt = null;
 
 		try {
 			conn = DbUtils.getConnection();
+			
+			String sql = String.format(SQLConstant.CHECK_FOR_PAYMENT, payment.getStudentID());
+			stmt = conn.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery(sql);
+			
+			result.next();
+			int paymentDone = result.getInt(1);
+			
+			if(paymentDone == 1) {
+				throw new PaymentAlreadyDoneException("payment already done for the student");
+			}
+			
+			stmt.close();
+			
 			stmt = conn.prepareStatement(SQLConstant.CREATE_PAYMENT);
 			stmt.setString(1, payment.getPaymentMethod());
 			stmt.setInt(2, payment.getStudentID());

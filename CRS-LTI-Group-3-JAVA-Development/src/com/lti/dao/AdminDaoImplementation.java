@@ -14,7 +14,7 @@ import com.lti.bean.Course;
 import com.lti.bean.Grade;
 import com.lti.constant.SQLConstant;
 import com.lti.exception.CourseFoundException;
-
+import com.lti.exception.GradeNotAddedException;
 import com.lti.exception.ProfessorNotFoundException;
 import com.lti.utils.DbUtils;
 
@@ -125,7 +125,7 @@ public class AdminDaoImplementation {
 		}
 	}
 
-	public ArrayList<Grade> getGrades(int studentID) {
+	public ArrayList<Grade> getGrades(int studentID) throws GradeNotAddedException {
 
 		ArrayList<Grade> grades = new ArrayList<Grade>();
 
@@ -158,6 +158,10 @@ public class AdminDaoImplementation {
 				g.setCourseName(courseName);
 
 				grades.add(g);
+			}
+			
+			if(grades.isEmpty()) {
+				throw new GradeNotAddedException("grade yet to be added");
 			}
 
 			stmt.close();

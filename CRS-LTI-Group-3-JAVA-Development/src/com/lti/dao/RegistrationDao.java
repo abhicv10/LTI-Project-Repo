@@ -26,9 +26,10 @@ public interface RegistrationDao {
     * @throws StudentNotFoundException
     * @throws CourseNotFoundException
     * @throws CourseLimitExceedException
+    * @throws CourseAlreadyTakenException
     */
    public void registerCourse(int studentID, int courseID)
-           throws StudentNotFoundException, CourseNotFoundException, CourseLimitExceedException;
+           throws StudentNotFoundException, CourseNotFoundException, CourseLimitExceedException, CourseAlreadyTakenException;
 
     /**
 	 * Method to Deregister a course for a student

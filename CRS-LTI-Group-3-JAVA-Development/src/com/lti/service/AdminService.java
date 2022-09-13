@@ -14,6 +14,7 @@ import com.lti.dao.ProfessorDaoImplementation;
 import com.lti.dao.StudentDaoImplementation;
 import com.lti.dao.UserDaoImplementation;
 import com.lti.exception.CourseFoundException;
+import com.lti.exception.GradeNotAddedException;
 import com.lti.exception.ProfessorNotFoundException;
 import com.lti.exception.StudentNotFoundException;
 import com.lti.exception.UserAlreadyExistException;
@@ -64,7 +65,15 @@ public class AdminService implements AdminInterfaceOperation {
 
 	public ArrayList<Grade> generateReportCard(int studentID) {
 		AdminDaoImplementation adminDoa = new AdminDaoImplementation();
-		ArrayList<Grade> grades = adminDoa.getGrades(studentID);
-		return grades;
+		
+		ArrayList<Grade> grades = null;
+		
+		try {
+			grades = adminDoa.getGrades(studentID);
+		} catch(GradeNotAddedException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return grades;			
 	}
 }

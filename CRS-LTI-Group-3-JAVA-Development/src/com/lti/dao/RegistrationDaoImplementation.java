@@ -60,7 +60,7 @@ public class RegistrationDaoImplementation {
 	}
 
 	public void registerCourse(int studentID, int courseID)
-			throws StudentNotFoundException, CourseNotFoundException, CourseLimitExceedException {
+			throws StudentNotFoundException, CourseNotFoundException, CourseLimitExceedException, CourseAlreadyTakenException {
 
 		PreparedStatement stmt = null;
 
@@ -97,14 +97,27 @@ public class RegistrationDaoImplementation {
 			if (!courseIDFound) {
 				throw new CourseNotFoundException("Course id doesn't exist");
 			}
-
+			
 			conn = DbUtils.getConnection();
 
+			String sql = String.format(SQLConstant.CHECK_IF_COURSE_TAKEN_BY_STUDENT, studentID, courseID);
+			stmt = conn.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery(sql);
+			result.next();
+			
+			int courseAlreadyTaken = result.getInt(1);
+			
+			if(courseAlreadyTaken == 1) {
+				throw new CourseAlreadyTakenException("course already registered by the student");
+			}
+			
+			stmt.close();
+			
 			// check availability
-			String sql = String.format(SQLConstant.GET_COURSE_STUDNET_COUNT, courseID);
+			sql = String.format(SQLConstant.GET_COURSE_STUDNET_COUNT, courseID);
 			stmt = conn.prepareStatement(sql);
 
-			ResultSet result = stmt.executeQuery(sql);
+			result = stmt.executeQuery(sql);
 			result.next();
 			int enrolledStudentCount = result.getInt(1);
 

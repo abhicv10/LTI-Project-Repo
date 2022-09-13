@@ -10,8 +10,11 @@ import com.lti.bean.Payment;
 import com.lti.dao.AdminDaoImplementation;
 import com.lti.dao.RegistrationDaoImplementation;
 import com.lti.dao.StudentDaoImplementation;
+import com.lti.exception.CourseAlreadyTakenException;
 import com.lti.exception.CourseLimitExceedException;
 import com.lti.exception.CourseNotFoundException;
+import com.lti.exception.GradeNotAddedException;
+import com.lti.exception.PaymentAlreadyDoneException;
 import com.lti.exception.StudentNotFoundException;
 
 /**
@@ -34,6 +37,8 @@ public class StudentService implements StudentInterfaceOperation {
 		} catch (CourseNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (CourseLimitExceedException e) {
+			System.out.println(e.getMessage());
+		} catch (CourseAlreadyTakenException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -64,12 +69,24 @@ public class StudentService implements StudentInterfaceOperation {
 
 	public ArrayList<Grade> viewGrades(int studentID) {
 		AdminDaoImplementation adminDoa = new AdminDaoImplementation();
-		ArrayList<Grade> grades = adminDoa.getGrades(studentID);
-		return grades;
+		
+		ArrayList<Grade> grades = null;
+		
+		try {
+			grades = adminDoa.getGrades(studentID);
+		} catch(GradeNotAddedException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return grades;	
 	}
 
-	public void payFee(Payment payment) {
-		StudentDaoImplementation stuDao = new StudentDaoImplementation();
-		stuDao.payFee(payment);
+	public void payFee(Payment payment) {		
+		try {
+			StudentDaoImplementation stuDao = new StudentDaoImplementation();
+			stuDao.payFee(payment);			
+		} catch(PaymentAlreadyDoneException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

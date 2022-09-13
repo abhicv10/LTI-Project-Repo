@@ -35,4 +35,7 @@ public class SQLConstant {
 	public final static String CHECK_FOR_STUDENT = "SELECT EXISTS(SELECT * FROM student WHERE studentID = %d)";
 	public final static String CHECK_FOR_COURSENAME = "SELECT EXISTS(SELECT * FROM course WHERE courseName = '%s')";
 	public final static String GET_COURSENAME = "select courseName from course where courseID = %d";
+	
+	public final static String CHECK_FOR_PAYMENT = "select exist(select * from payment where studentID = %d)";
+	public final static String CHECK_IF_COURSE_TAKEN_BY_STUDENT = "select exist(select * from registration where studentID = %d AND courseID = %d)";
 }
