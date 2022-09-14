@@ -126,7 +126,14 @@ public class RegistrationDaoImplementation {
 			}
 
 			stmt.close();
-
+			
+			// increment student count for course
+			enrolledStudentCount += 1;
+			sql = String.format(SQLConstant.UPDATE_ENROLLED_STUDENT_COUNT, enrolledStudentCount, courseID);
+			stmt = conn.prepareStatement(sql);
+			stmt.executeUpdate();
+			stmt.close();
+			
 			stmt = conn.prepareStatement(SQLConstant.REGISTER_COURSE);
 			stmt.setInt(1, studentID);
 			stmt.setInt(2, courseID);

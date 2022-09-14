@@ -272,14 +272,27 @@ public class ProfessorDaoImplementation {
 			}
 
 			stmt.close();
-
-			stmt = conn.prepareStatement(SQLConstant.ADD_GRADE);
-			stmt.setInt(1, studentID);
-			stmt.setInt(2, courseID);
-			stmt.setString(3, grade);
-			stmt.executeUpdate();
+						
+			String sql = String.format(SQLConstant.CHECK_IF_ALREADY_GRADED, studentID, courseID);
+			stmt = conn.prepareStatement(sql);
+			queryResult = stmt.executeQuery(sql);			
+			queryResult.next();
+			int gradeAlreadyAdded = queryResult.getInt(1);
 			stmt.close();
-
+			
+			if(gradeAlreadyAdded == 1) {
+				sql = String.format(SQLConstant.UPDATE_STUDENT_GRADE, grade, studentID, courseID);
+				stmt = conn.prepareStatement(sql);
+				stmt.executeUpdate();
+			} else {
+				stmt = conn.prepareStatement(SQLConstant.ADD_GRADE);
+				stmt.setInt(1, studentID);
+				stmt.setInt(2, courseID);
+				stmt.setString(3, grade);
+				stmt.executeUpdate();
+				stmt.close();
+			}
+			
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
