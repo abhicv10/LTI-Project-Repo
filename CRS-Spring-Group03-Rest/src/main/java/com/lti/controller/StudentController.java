@@ -96,7 +96,7 @@ public class StudentController {
 	 * Method to view enrolled courses of a student
 	 * 
 	 * @param studentID - id of the student
-	 * @return - list of enrolled courses of the student
+	 * @return list of enrolled courses of the student
 	 * @throws StudentNotFoundException
 	 * @throws CourseNotFoundException
 	 */
@@ -112,7 +112,7 @@ public class StudentController {
 	 * Method to view grades for a student
 	 * 
 	 * @param studentID - id of the the student
-	 * @return - list of grades for all enrolled courses of the student
+	 * @return list of grades for all enrolled courses of the student
 	 * @throws GradeNotAddedException
 	 */
 
