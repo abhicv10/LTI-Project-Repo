@@ -1,0 +1,248 @@
+package com.lti.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Repository;
+
+import com.lti.bean.Login;
+import com.lti.constant.SQLConstant;
+import com.lti.exception.InvalidUserException;
+import com.lti.exception.StudentNotFoundException;
+import com.lti.exception.UserAlreadyExistException;
+import com.lti.utils.DbUtils;
+
+@Repository
+public class UserDaoImplementation {
+
+	Connection conn = null;
+
+	public boolean isUsernameAlreadyTaken(String username) {
+		ArrayList<Login> logins = this.getAllUserLoginDetails();
+
+		boolean usernameAlreadyTaken = false;
+		for (Login login : logins) {
+			if (login.getUsername().equals(username)) {
+				usernameAlreadyTaken = true;
+				break;
+			}
+		}
+
+		return usernameAlreadyTaken;
+	}
+
+	public void createNewUser(Login login) throws UserAlreadyExistException {
+		PreparedStatement stmt = null;
+
+		try {
+			conn = DbUtils.getConnection();
+
+			if (this.isUsernameAlreadyTaken(login.getUsername())) {
+				throw new UserAlreadyExistException("username already exists");
+			}
+
+			stmt = conn.prepareStatement(SQLConstant.CREATE_USER);
+			stmt.setString(1, login.getUsername());
+			stmt.setString(2, login.getPassword());
+
+			int roleID = 0;
+
+			String role = login.getRole();
+			if (role.equals("student")) {
+				roleID = 1;
+			} else if (role.equals("professor")) {
+				roleID = 2;
+			} else if (role.equals("admin")) {
+				roleID = 3;
+			}
+
+			stmt.setInt(3, roleID);
+			stmt.setInt(4, login.getUserID());
+
+			stmt.executeUpdate();
+
+			stmt.close();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			}
+		}
+	}
+
+	public boolean validateUser(String username, String password, String role) throws InvalidUserException {
+		PreparedStatement stmt = null;
+
+		boolean result = false;
+
+		int roleID = 0;
+
+		if (role.equals("student")) {
+			roleID = 1;
+		} else if (role.equals("professor")) {
+			roleID = 2;
+		} else if (role.equals("admin")) {
+			roleID = 3;
+		}
+
+		if (roleID == 0) {
+			return false;
+		}
+
+		try {
+			conn = DbUtils.getConnection();
+			String sql = String.format(SQLConstant.VALIDATE_USER, username, password, roleID);
+			stmt = conn.prepareStatement(sql);
+			ResultSet queryResult = stmt.executeQuery(sql);
+			queryResult.next();
+			int userExist = queryResult.getInt(1);
+
+			if (userExist == 1) {
+				result = true;
+			} else {
+				throw new InvalidUserException("username or password or role invalid!");
+			}
+
+			if (role.equals("student")) {
+				int studentID = this.getUserID(username, password, role);
+				StudentDaoImplementation studentDao = new StudentDaoImplementation();
+
+				try {
+					if (!studentDao.isStudentApproved(studentID)) {
+						return false;
+					}
+				} catch (StudentNotFoundException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+			stmt.close();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (SQLException se2) {
+
+			}
+		}
+
+		return result;
+	}
+
+	public int getUserID(String username, String password, String role) throws InvalidUserException {
+
+		int roleID = 0;
+
+		if (role.equals("student")) {
+			roleID = 1;
+		} else if (role.equals("professor")) {
+			roleID = 2;
+		} else if (role.equals("admin")) {
+			roleID = 3;
+		}
+
+		PreparedStatement stmt = null;
+
+		try {
+			conn = DbUtils.getConnection();
+
+			String sql = String.format(SQLConstant.VALIDATE_USER, username, password, roleID);
+			stmt = conn.prepareStatement(sql);
+			ResultSet queryResult = stmt.executeQuery(sql);
+
+			int userID = 0;
+			if (queryResult.next()) {
+				userID = queryResult.getInt("userID");
+			} else {
+				throw new InvalidUserException("unable to getuser id");
+			}
+
+			stmt.close();
+
+			return userID;
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			}
+		}
+
+		return 0;
+	}
+
+	public ArrayList<Login> getAllUserLoginDetails() {
+		ArrayList<Login> logins = new ArrayList<Login>();
+
+		PreparedStatement stmt = null;
+
+		try {
+			conn = DbUtils.getConnection();
+
+			String sql = "select * from user";
+			stmt = conn.prepareStatement(sql);
+			ResultSet queryResult = stmt.executeQuery(sql);
+
+			while (queryResult.next()) {
+				String username = queryResult.getString("username");
+				String password = queryResult.getString("password");
+				Login login = new Login();
+				login.setUsername(username);
+				login.setPassword(password);
+				logins.add(login);
+			}
+
+			stmt.close();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			}
+		}
+
+		return logins;
+	}
+
+	public void updatePassword(String username, String newPassword) {
+
+		PreparedStatement stmt = null;
+
+		try {
+			conn = DbUtils.getConnection();
+			String sql = String.format(SQLConstant.UPDATE_PASSWORD, newPassword, username);
+			stmt = conn.prepareStatement(sql);
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			}
+		}
+	}
+}

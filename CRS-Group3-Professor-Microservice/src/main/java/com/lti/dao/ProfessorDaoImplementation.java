@@ -176,7 +176,7 @@ public class ProfessorDaoImplementation {
 		try {
 
 			conn = DbUtils.getConnection();
-			
+
 			String query = String.format(SQLConstant.CHECK_FOR_PROFESSOR, profID);
 			stmt = conn.prepareStatement(query);
 			ResultSet queryResult = stmt.executeQuery(query);
@@ -189,18 +189,18 @@ public class ProfessorDaoImplementation {
 			}
 			
 			stmt.close();
-
+			
 			query = String.format(SQLConstant.CHECK_IF_COURSE_EXIST, courseID);
 			stmt = conn.prepareStatement(query);
 			queryResult = stmt.executeQuery(query);
-			
+
 			queryResult.next();
 			int courseFound = queryResult.getInt(1);
-			
+
 			if (courseFound != 1) {
 				throw new CourseNotFoundException("course not found");
 			}
-			
+
 			stmt.close();
 			
 			query = String.format(SQLConstant.GET_PROFESSOR_FOR_COURSE, courseID, profID);
@@ -215,7 +215,6 @@ public class ProfessorDaoImplementation {
 			}
 
 			stmt.close();
-
 
 			String sql = String.format(SQLConstant.GET_COURSE_STUDENT_LIST, courseID);
 			stmt = conn.prepareStatement(sql);

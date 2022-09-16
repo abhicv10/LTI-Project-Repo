@@ -83,4 +83,11 @@ public class ProfessorController {
 			CourseNotAssignedToProfessorException e) {
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 	}
+	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler({ ProfessorNotFoundException.class })
+	public ResponseEntity<Object> professorNotFoundExceptionHandler(
+			ProfessorNotFoundException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+	}
 }
