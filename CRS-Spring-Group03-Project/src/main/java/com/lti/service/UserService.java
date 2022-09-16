@@ -1,7 +1,5 @@
 package com.lti.service;
 
-
-
 import com.lti.bean.Login;
 import com.lti.bean.Student;
 import com.lti.dao.StudentDaoImplementation;
@@ -17,39 +15,51 @@ import com.lti.exception.UserAlreadyExistException;
 public class UserService implements UserInterfaceOperation {
 
 	public boolean verifyCredential(Login login) {
-		
-		boolean result = false;
-		
 		UserDaoImplementation userDao = new UserDaoImplementation();
+
+		boolean result = false;
 
 		try {
 			result = userDao.validateUser(login.getUsername(), login.getPassword(), login.getRole());
 		} catch (InvalidUserException e) {
-			
+			System.out.println(e.getMessage());
 		}
-		
+
 		return result;
 	}
 
-	public void registerStudent(Student student, Login login) {
+	public boolean registerStudent(Student student) {
 
-		StudentDaoImplementation studentDao = new StudentDaoImplementation();
-		int id = studentDao.addStudent(student);
-
-		login.setUserID(id);
+		boolean result = false;
 
 		UserDaoImplementation userDao = new UserDaoImplementation();
 
+		if (userDao.isUsernameAlreadyTaken(student.getLogin().getUsername())) {
+			return false;
+		}
+
+		StudentDaoImplementation studentDao = new StudentDaoImplementation();
+		studentDao.addStudent(student);
+
 		try {
-			userDao.createNewUser(login);
+			userDao.createNewUser(student.getLogin());
+			result = true;
 		} catch (UserAlreadyExistException e) {
 			System.out.println(e.getMessage());
 		}
+
+		return result;
 	}
-	
-	
-	public void resetPassword(String username, String newPassword) {
-		UserDaoImplementation userDao = new UserDaoImplementation();
-		userDao.updatePassword(username, newPassword);
+
+	public boolean resetPassword(Login login, String newPassword) {
+
+		boolean result = this.verifyCredential(login);
+
+		if (result) {
+			UserDaoImplementation userDao = new UserDaoImplementation();
+			userDao.updatePassword(login.getUsername(), newPassword);
+		}
+
+		return result;
 	}
 }
